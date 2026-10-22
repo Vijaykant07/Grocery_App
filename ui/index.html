@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FreshMart GSMS - Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Grocery Store Management System - Sales & Order Dashboard">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Modern Application Design CSS -->
+    <link rel="stylesheet" href="css/modern.css?v=2.0">
+</head>
+<body>
+    <!-- Top Modern Navbar -->
+    <header class="gsms-navbar">
+        <div class="container-fluid" style="max-width: 1200px; padding: 0 20px;">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="index.html" class="gsms-brand">
+                    <div class="gsms-brand-icon">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <div class="gsms-brand-title">
+                        FreshMart
+                        <div class="gsms-brand-sub">Grocery Management System</div>
+                    </div>
+                </a>
+
+                <nav class="d-flex align-items-center gap-3">
+                    <ul class="gsms-nav-links">
+                        <li>
+                            <a href="index.html" class="gsms-nav-link active">
+                                <i class="fa-solid fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="manage-product.html" class="gsms-nav-link">
+                                <i class="fa-solid fa-boxes-stacked"></i> Manage Products
+                            </a>
+                        </li>
+                        <li>
+                            <a href="order.html" class="gsms-nav-link">
+                                <i class="fa-solid fa-cart-plus"></i> New Order
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="status-indicator d-none d-md-inline-flex ms-3">
+                        <span class="status-dot"></span> System Online
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="gsms-main-container">
+        <!-- KPI Summary Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-green">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-title">Total Revenue</div>
+                    <div class="stat-value" id="stat_total_revenue">₹ 0.00</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-blue">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-title">Total Orders</div>
+                    <div class="stat-value" id="stat_total_orders">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-purple">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-title">Active Products</div>
+                    <div class="stat-value" id="stat_total_products">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-amber">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-title">Avg Order Value</div>
+                    <div class="stat-value" id="stat_avg_order">₹ 0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Table Panel -->
+        <div class="content-panel">
+            <div class="panel-header">
+                <div>
+                    <h1 class="panel-title">
+                        <i class="fa-solid fa-clipboard-list text-primary"></i> Customer Orders
+                    </h1>
+                    <p class="text-muted small mb-0 mt-1">Review sales records, timestamps, and line-item receipts.</p>
+                </div>
+                <div class="panel-actions">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="orderSearchInput" class="search-input" placeholder="Search orders or customer...">
+                    </div>
+                    <a href="order.html" class="btn-gsms-primary">
+                        <i class="fa-solid fa-plus"></i> New Order
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table gsms-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Order #</th>
+                            <th style="width: 220px;">Date & Time</th>
+                            <th>Customer Name</th>
+                            <th style="width: 180px;">Total Cost</th>
+                            <th style="width: 220px;" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <i class="fa fa-spinner fa-spin me-2"></i> Loading orders...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Order Details Modal (Itemized Receipt) -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h4 class="modal-title mb-1">
+                            <i class="fa-solid fa-receipt text-primary me-2"></i>Order Details <span id="modalOrderNumber" class="order-badge ms-1">#</span>
+                        </h4>
+                        <div class="small text-muted">
+                            Customer: <strong id="modalCustomerName" class="text-dark"></strong> &bull;
+                            Date: <span id="modalOrderDate"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="close btn btn-sm btn-light" data-dismiss="modal" aria-label="Close" style="font-size: 1.5rem; border-radius: 50%;">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product Item</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th class="text-end">Line Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderDetailsTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted fw-bold">Grand Total: </span>
+                        <span id="modalOrderTotal" class="fs-5 fw-bold text-success ms-1">₹ 0.00</span>
+                    </div>
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/packages/bootstrap.min.js"></script>
+    <script src="js/custom/common.js"></script>
+    <script src="js/custom/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FreshMart GSMS - New Order</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create New Grocery Order and Calculate Invoice">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Modern Application Design CSS -->
+    <link rel="stylesheet" href="css/modern.css?v=2.0">
+</head>
+<body>
+    <!-- Top Modern Navbar -->
+    <header class="gsms-navbar">
+        <div class="container-fluid" style="max-width: 1200px; padding: 0 20px;">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="index.html" class="gsms-brand">
+                    <div class="gsms-brand-icon">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <div class="gsms-brand-title">
+                        FreshMart
+                        <div class="gsms-brand-sub">Grocery Management System</div>
+                    </div>
+                </a>
+
+                <nav class="d-flex align-items-center gap-3">
+                    <ul class="gsms-nav-links">
+                        <li>
+                            <a href="index.html" class="gsms-nav-link">
+                                <i class="fa-solid fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="manage-product.html" class="gsms-nav-link">
+                                <i class="fa-solid fa-boxes-stacked"></i> Manage Products
+                            </a>
+                        </li>
+                        <li>
+                            <a href="order.html" class="gsms-nav-link active">
+                                <i class="fa-solid fa-cart-plus"></i> New Order
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="status-indicator d-none d-md-inline-flex ms-3">
+                        <span class="status-dot"></span> System Online
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="gsms-main-container">
+        <div class="content-panel">
+            <div class="panel-header">
+                <div>
+                    <h1 class="panel-title">
+                        <i class="fa-solid fa-cash-register text-primary"></i> Point of Sale / New Order
+                    </h1>
+                    <p class="text-muted small mb-0 mt-1">Select grocery products, specify quantities, and instantly generate customer invoice.</p>
+                </div>
+                <div class="panel-actions">
+                    <a href="index.html" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Customer Details Section -->
+            <div class="card p-3 mb-4 bg-light border">
+                <div class="row align-items-center">
+                    <div class="col-md-3 col-sm-12">
+                        <label class="form-label mb-md-0 fw-bold" for="customerName">
+                            <i class="fa-solid fa-user me-1 text-primary"></i> Customer Name <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <input type="text" id="customerName" name="customerName" class="form-control" placeholder="Enter customer full name..." required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Line Items Section -->
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold text-dark m-0">
+                    <i class="fa-solid fa-basket-shopping me-1 text-success"></i> Order Line Items
+                </h5>
+                <button type="button" class="btn btn-sm btn-primary" id="addMoreButton">
+                    <i class="fa-solid fa-plus me-1"></i> Add Another Item
+                </button>
+            </div>
+
+            <!-- Column Headers (Desktop) -->
+            <div class="d-none d-md-block px-3 py-2 text-muted fw-bold small text-uppercase" style="letter-spacing: 0.5px;">
+                <div class="row g-2">
+                    <div class="col-md-4">Product Catalog Item</div>
+                    <div class="col-md-2">Unit Price</div>
+                    <div class="col-md-2 text-center">Quantity</div>
+                    <div class="col-md-3 text-end">Line Total</div>
+                    <div class="col-md-1 text-end">Action</div>
+                </div>
+            </div>
+
+            <!-- Container for Dynamic Line Items -->
+            <div id="itemsInOrder">
+                <!-- Dynamically populated by order.js -->
+            </div>
+
+            <!-- Grand Total Summary Card -->
+            <div class="order-summary-card">
+                <div>
+                    <div class="grand-total-label">Grand Total Invoice</div>
+                    <div class="grand-total-amount" id="display_grand_total">₹ 0.00</div>
+                    <input type="hidden" id="product_grand_total" name="product_grand_total" value="0.00">
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                    <a href="index.html" class="btn btn-outline-light px-3 py-2">
+                        Cancel
+                    </a>
+                    <button type="button" class="btn-gsms-success" id="saveOrder">
+                        <i class="fa-solid fa-check"></i> Complete Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/packages/jquery.min.js"></script>
+    <script src="js/packages/bootstrap.min.js"></script>
+    <script src="js/custom/common.js"></script>
+    <script src="js/custom/order.js"></script>
+</body>
+</html>
