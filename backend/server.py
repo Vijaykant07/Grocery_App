@@ -6,6 +6,7 @@ from sql_connection import get_sql_connection
 import products_dao
 import orders_dao
 import uom_dao
+import ai_engine
 
 # Set the path to the ui folder
 UI_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'ui'))
@@ -195,6 +196,58 @@ def delete_order():
         })
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
+
+# --- AI Technology Routes ---
+
+@app.route('/ai/recommendations', methods=['POST'])
+def ai_recommendations():
+    try:
+        payload = get_payload()
+        product_ids = payload.get('product_ids', [])
+        if isinstance(product_ids, str):
+            try:
+                product_ids = json.loads(product_ids)
+            except Exception:
+                product_ids = [int(p) for p in product_ids.split(',') if p.strip().isdigit()]
+
+        connection = get_sql_connection()
+        recommendations = ai_engine.get_recommendations(connection, product_ids)
+        return jsonify({
+            'status': 'success',
+            'recommendations': recommendations
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
+
+@app.route('/ai/parseOrder', methods=['POST'])
+def ai_parse_order():
+    try:
+        payload = get_payload()
+        text = payload.get('text', '')
+        if not text:
+            return jsonify({'status': 'error', 'message': 'Please provide text to parse'}), 400
+
+        connection = get_sql_connection()
+        result = ai_engine.parse_natural_order(connection, text)
+        return jsonify({
+            'status': 'success',
+            'customer_name': result['customer_name'],
+            'items': result['items']
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
+
+@app.route('/ai/insights', methods=['GET'])
+def ai_insights():
+    try:
+        connection = get_sql_connection()
+        data = ai_engine.get_ai_insights(connection)
+        return jsonify({
+            'status': 'success',
+            'data': data
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == "__main__":
     print("Starting Python Flask Server For Grocery Store Management System on port 5000...")

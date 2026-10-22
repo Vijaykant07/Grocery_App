@@ -534,3 +534,202 @@ body {
     font-weight: 800;
     color: #34d399;
 }
+
+/* ==========================================================================
+   AI Smart Technology Components
+   ========================================================================== */
+
+.ai-assistant-card {
+    background: linear-gradient(135deg, #f0fdf4, #eff6ff);
+    border: 1.5px solid #bfdbfe;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.ai-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.ai-input-field {
+    flex: 1;
+    border: 1.5px solid #93c5fd !important;
+    background: #ffffff !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-size: 0.925rem !important;
+}
+
+.ai-input-field:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+.btn-ai-magic {
+    background: linear-gradient(135deg, #2563eb, #6366f1);
+    color: white !important;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-ai-magic:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+}
+
+.ai-sample-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.ai-sample-chip {
+    background: #ffffff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    font-size: 0.775rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.ai-sample-chip:hover {
+    background: #dbeafe;
+    border-color: #3b82f6;
+}
+
+/* --- Recommendations (Frequently Bought Together) --- */
+.ai-recommendations-box {
+    background: #faf5ff;
+    border: 1px dashed #c084fc;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    margin-bottom: 20px;
+}
+
+.ai-rec-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #6b21a8;
+    margin-bottom: 10px;
+}
+
+.ai-rec-chips-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ai-rec-chip {
+    background: #ffffff;
+    border: 1px solid #e9d5ff;
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(107, 33, 168, 0.05);
+    transition: all 0.2s ease;
+}
+
+.ai-rec-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(107, 33, 168, 0.12);
+    border-color: #a855f7;
+}
+
+.ai-rec-info {
+    line-height: 1.2;
+}
+
+.ai-rec-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #1e293b;
+}
+
+.ai-rec-price {
+    font-size: 0.75rem;
+    color: #059669;
+    font-weight: 600;
+}
+
+.btn-ai-add-chip {
+    background: #f3e8ff;
+    color: #7e22ce;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-ai-add-chip:hover {
+    background: #7e22ce;
+    color: white;
+}
+
+/* --- Dashboard AI Insights --- */
+.ai-insights-panel {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    box-shadow: var(--card-shadow);
+}
+
+.ai-insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 10px;
+}
+
+.ai-insight-icon {
+    font-size: 1.25rem;
+    margin-top: 2px;
+}

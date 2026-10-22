@@ -9,6 +9,9 @@ var orderSaveApiUrl = '/insertOrder';
 var orderDeleteApiUrl = '/deleteOrder';
 var orderDetailsApiUrl = '/getOrderDetails';
 var dashboardStatsApiUrl = '/getDashboardStats';
+var aiRecommendationsApiUrl = '/ai/recommendations';
+var aiParseOrderApiUrl = '/ai/parseOrder';
+var aiInsightsApiUrl = '/ai/insights';
 
 // Format currency
 function formatCurrency(amount) {

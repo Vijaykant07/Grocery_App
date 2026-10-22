@@ -1,5 +1,6 @@
 $(function () {
     loadDashboardStats();
+    loadAiInsights();
     loadOrders();
 
     // Order search filtering
@@ -84,6 +85,33 @@ function loadDashboardStats() {
         }
     }).fail(function () {
         console.warn("Unable to fetch dashboard statistics.");
+    });
+}
+
+function loadAiInsights() {
+    $.get(aiInsightsApiUrl, function (res) {
+        if (res.status === "success" && res.data && res.data.insights && res.data.insights.length > 0) {
+            var html = '';
+            $.each(res.data.insights, function (i, insight) {
+                html += '<div class="col-md-4 col-sm-12">' +
+                    '<div class="ai-insight-item h-100">' +
+                        '<div class="ai-insight-icon text-' + insight.color + '">' +
+                            '<i class="fa-solid ' + insight.icon + '"></i>' +
+                        '</div>' +
+                        '<div>' +
+                            '<div class="fw-bold text-dark small mb-1">' + insight.title + '</div>' +
+                            '<div class="text-muted small" style="line-height: 1.3;">' + insight.detail + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            });
+            $("#aiInsightsContainer").html(html);
+            $("#aiInsightsPanel").show();
+        } else {
+            $("#aiInsightsPanel").hide();
+        }
+    }).fail(function () {
+        $("#aiInsightsPanel").hide();
     });
 }
 

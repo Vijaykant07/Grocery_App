@@ -71,6 +71,27 @@
                 </div>
             </div>
 
+            <!-- AI Smart Order Quick-Fill Assistant -->
+            <div class="ai-assistant-card">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="ai-badge">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> AI Quick-Fill Assistant (NLP)
+                    </span>
+                    <span class="text-muted small">Type natural language to auto-populate customer & cart</span>
+                </div>
+                <div class="ai-input-group mt-2">
+                    <input type="text" id="aiOrderInput" class="form-control ai-input-field" placeholder="e.g. 2 kg Rice, 1 Toothpaste, and 5 Atta for Sunita">
+                    <button type="button" class="btn-ai-magic" id="btnAiParse">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> AI Auto-Fill
+                    </button>
+                </div>
+                <div class="ai-sample-chips">
+                    <span class="small text-muted fw-bold">Try prompt:</span>
+                    <span class="ai-sample-chip" data-sample="2 kg Rice and 1 Toothpaste for Anita">"2 kg Rice and 1 Toothpaste for Anita"</span>
+                    <span class="ai-sample-chip" data-sample="5 Atta and 2 kg Potatoes for Rahul">"5 Atta and 2 kg Potatoes for Rahul"</span>
+                </div>
+            </div>
+
             <!-- Customer Details Section -->
             <div class="card p-3 mb-4 bg-light border">
                 <div class="row align-items-center">
@@ -109,6 +130,17 @@
             <!-- Container for Dynamic Line Items -->
             <div id="itemsInOrder">
                 <!-- Dynamically populated by order.js -->
+            </div>
+
+            <!-- AI Recommendations: Frequently Bought Together -->
+            <div class="ai-recommendations-box" id="aiRecommendationsBox" style="display: none;">
+                <div class="ai-rec-header">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>AI Smart Suggestions (Frequently Bought Together):</span>
+                </div>
+                <div class="ai-rec-chips-container" id="aiRecChips">
+                    <!-- Populated dynamically via Market Basket Analysis -->
+                </div>
             </div>
 
             <!-- Grand Total Summary Card -->

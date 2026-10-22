@@ -16,11 +16,10 @@ A full-stack web application designed for grocery store inventory management, bi
   - Edit existing product names, units, and rates.
   - Delete products with foreign key protection (prevents deleting items tied to past orders).
   - Live product search by name or unit.
-- **Point of Sale (POS) / Order Creation**:
-  - Dynamic line item creation with product catalog dropdown.
-  - Automatic unit price auto-fill and line item total calculation.
-  - Live grand total invoice calculation in Indian Rupees (₹).
-  - Transaction-safe order creation with duplicate product merging.
+- **AI-Powered Retail Features**:
+  - **Market Basket Analysis (Recommendation Engine)**: Analyzes past receipt baskets and computes item co-occurrence to suggest "Frequently Bought Together" items with 1-click addition to cart.
+  - **Natural Language Order Quick-Fill (NLP / NER)**: Cashiers can type or paste conversational text (e.g., *"2 kg Rice and 1 Toothpaste for Anita"*); regex entity heuristics and catalog keyword matching extract the customer name, quantities, and matching products automatically into the checkout form.
+  - **AI Store Intelligence & Demand Forecaster**: Dashboard analytics predicting sales velocity, highlighting top-moving products, and offering inventory restock recommendations.
 
 ---
 

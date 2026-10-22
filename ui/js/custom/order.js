@@ -20,6 +20,7 @@ $(function () {
         }
 
         calculateValue();
+        updateAiRecommendations();
     });
 
     // Quantity change
@@ -43,6 +44,7 @@ $(function () {
             $(this).closest(".product-item").fadeOut(200, function () {
                 $(this).remove();
                 calculateValue();
+                updateAiRecommendations();
             });
         } else {
             // Reset the single row rather than deleting
@@ -53,7 +55,67 @@ $(function () {
             firstRow.find(".product-total").val("0.00");
             firstRow.find(".product-uom-label").text("");
             calculateValue();
+            updateAiRecommendations();
             showToast("Order reset. At least one line item is required.", "info");
+        }
+    });
+
+    // AI Sample Prompt Click
+    $(document).on("click", ".ai-sample-chip", function () {
+        var sampleText = $(this).data("sample");
+        $("#aiOrderInput").val(sampleText);
+        $("#btnAiParse").trigger("click");
+    });
+
+    // AI Natural Language Parse Order
+    $("#btnAiParse").on("click", function () {
+        var promptText = $.trim($("#aiOrderInput").val());
+        if (!promptText) {
+            showToast("Please enter an order description to parse.", "warning");
+            $("#aiOrderInput").focus();
+            return;
+        }
+
+        var btn = $(this);
+        btn.prop("disabled", true).html('<i class="fa fa-spinner fa-spin me-1"></i> Parsing...');
+
+        $.ajax({
+            method: "POST",
+            url: aiParseOrderApiUrl,
+            data: { text: promptText },
+            dataType: "json"
+        }).done(function (res) {
+            if (res.status === "success") {
+                if (res.customer_name) {
+                    $("#customerName").val(res.customer_name);
+                }
+
+                if (res.items && res.items.length > 0) {
+                    $("#itemsInOrder").empty();
+                    $.each(res.items, function (index, item) {
+                        addNewRow(item.product_id, item.quantity);
+                    });
+                    calculateValue();
+                    updateAiRecommendations();
+                    showToast("AI parsed " + res.items.length + " items" + (res.customer_name ? " for " + res.customer_name : "") + "!", "success");
+                } else {
+                    showToast("AI could not detect catalog products in the text. Try specifying product name & quantity.", "warning");
+                }
+            }
+        }).fail(function () {
+            showToast("Failed to process natural language request.", "danger");
+        }).always(function () {
+            btn.prop("disabled", false).html('<i class="fa-solid fa-wand-magic-sparkles"></i> AI Auto-Fill');
+        });
+    });
+
+    // Click on AI Recommended Chip (+ Add)
+    $(document).on("click", ".btn-ai-add-chip", function () {
+        var productId = $(this).data("id");
+        if (productId) {
+            addNewRow(productId, 1);
+            updateAiRecommendations();
+            showToast("Added " + (productMap[productId] ? productMap[productId].name : "product") + " to cart!", "success");
         }
     });
 
@@ -140,6 +202,7 @@ function loadProductsForOrder() {
         // Clear and add first item row
         $("#itemsInOrder").empty();
         addNewRow();
+        updateAiRecommendations();
     }).fail(function () {
         showToast("Failed to fetch product catalog.", "danger");
     });
@@ -206,4 +269,40 @@ function addNewRow(selectedId, quantity) {
 
     $("#itemsInOrder").append(rowHtml);
     calculateValue();
+}
+
+function updateAiRecommendations() {
+    var selectedProductIds = [];
+    $("#itemsInOrder .product-item").each(function () {
+        var id = $(this).find(".cart-product").val();
+        if (id) selectedProductIds.push(parseInt(id));
+    });
+
+    $.ajax({
+        method: "POST",
+        url: aiRecommendationsApiUrl,
+        data: { product_ids: JSON.stringify(selectedProductIds) },
+        dataType: "json"
+    }).done(function (res) {
+        if (res.status === "success" && res.recommendations && res.recommendations.length > 0) {
+            var chipsHtml = '';
+            $.each(res.recommendations, function (index, rec) {
+                chipsHtml += '<div class="ai-rec-chip">' +
+                    '<div class="ai-rec-info">' +
+                        '<div class="ai-rec-name">' + rec.name + '</div>' +
+                        '<div class="ai-rec-price">' + formatCurrency(rec.price) + ' / ' + rec.uom + ' &bull; <span class="badge bg-light text-secondary">' + rec.reason + '</span></div>' +
+                    '</div>' +
+                    '<button type="button" class="btn-ai-add-chip" data-id="' + rec.product_id + '">' +
+                        '<i class="fa-solid fa-plus me-1"></i> Add' +
+                    '</button>' +
+                '</div>';
+            });
+            $("#aiRecChips").html(chipsHtml);
+            $("#aiRecommendationsBox").fadeIn(200);
+        } else {
+            $("#aiRecommendationsBox").fadeOut(200);
+        }
+    }).fail(function () {
+        $("#aiRecommendationsBox").hide();
+    });
 }
