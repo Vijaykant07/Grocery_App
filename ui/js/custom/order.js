@@ -97,7 +97,15 @@ $(function () {
                     });
                     calculateValue();
                     updateAiRecommendations();
-                    showToast("AI parsed " + res.items.length + " items" + (res.customer_name ? " for " + res.customer_name : "") + "!", "success");
+
+                    // Visual highlight animation so user immediately notices populated fields
+                    $("#customerName").addClass("ai-highlight");
+                    $("#itemsInOrder .product-item").addClass("ai-highlight");
+                    setTimeout(function () {
+                        $("#customerName, #itemsInOrder .product-item").removeClass("ai-highlight");
+                    }, 1800);
+
+                    showToast("✨ AI auto-filled " + res.items.length + " items" + (res.customer_name ? " for " + res.customer_name : "") + "!", "success");
                 } else {
                     showToast("AI could not detect catalog products in the text. Try specifying product name & quantity.", "warning");
                 }
